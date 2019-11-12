@@ -2,6 +2,9 @@
 <link rel="import" href="../iron-icons/maps-icons.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-card/paper-card.html">
+<script src="../webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 
 <dom-module id="cards-polymer">
   <template>
@@ -13,6 +16,10 @@
         width: 20px;
         margin: 5px;
       }
+      paper-input {
+            max-width: 400px;
+            margin: auto;
+          }
     </style>
     <custom-style>
         <style is="custom-style">
@@ -27,6 +34,21 @@
           }
         </style>
         <custom-style>
+          <div>
+            <paper-input always-float-label label="Nombre" value="{{nombre}}">
+              <iron-icon icon="icons:accessibility" slot="prefix"></iron-icon>    
+            </paper-input>
+            <paper-input always-float-label label="Cuenta en GitHub" value="{{github}}">
+              <img class="github" src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" alt="github" slot="prefix">
+            </paper-input>
+            <paper-input always-float-label label="Celular" value="{{cell}}">
+              <iron-icon icon="icons:perm-device-information" slot="prefix"></iron-icon>
+            </paper-input>
+            <paper-input always-float-label label="Correo electrónico" value="{{email}}"> 
+              <iron-icon icon="icons:mail" slot="prefix"></iron-icon>
+            </paper-input>
+            <paper-button on-click='_insertData' class="indigo">Ingresar datos </paper-button>
+          </div>
     <template is="dom-repeat" items="[[contacts]]" as="contact" index-as="index">
       <paper-card >
         <div class="card-content">
@@ -34,7 +56,8 @@
             <img src="[[contact.picture.large]]" alt="userpick">
             <li> <iron-icon icon="icons:accessibility"></iron-icon> Nombre:  [[contact.name.title]] [[contact.name.first]] [[contact.name.last]]</li>
             <li> <img class="github" src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" alt="github"> GitHub: <a href$="https://github.com/[[contact.login.username]]">@[[contact.login.username]]</a> </li>
-            <li> <iron-icon icon="icons:perm-device-information"></iron-icon> Celular: [[contact.cell]] </li>
+            <li> <iron-i
+              con icon="icons:perm-device-information"></iron-icon> Celular: [[contact.cell]] </li>
             <li> <iron-icon icon="icons:mail"></iron-icon> Correo electrónico: [[contact.email]] </li>
           </ul>
         </div>
@@ -59,6 +82,22 @@
             type: Array,
             value: []
           },
+          nombre: {
+            type: String,
+            value: ''
+          },
+          github: {
+            type: String,
+            value: ''
+          },
+          email: {
+            type: String,
+            value: ''
+          },
+          cell: {
+            type: String,
+            value: ''
+          }
         }
       }
 
@@ -69,6 +108,10 @@
                 .then(payload => {
                   this.contacts = [...payload.results];
                 });
+      }
+
+      _insertData(nombre, github, cell, email){
+        this.contacts = [{nombre, github, cell, email} ,...this.contacts]
       }
 
     }
