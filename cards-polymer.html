@@ -1,0 +1,78 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-card/paper-card.html">
+
+<dom-module id="cards-polymer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .github {
+        width: 20px;
+        margin: 5px;
+      }
+    </style>
+    <custom-style>
+        <style is="custom-style">
+          body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+          }
+          paper-card {
+          display: inline-block;
+          max-width: 400px;
+          }
+        </style>
+        <custom-style>
+    <template is="dom-repeat" items="[[contacts]]" as="contact" index-as="index">
+      <paper-card >
+        <div class="card-content">
+          <ul>
+            <img src="[[contact.picture.large]]" alt="userpick">
+            <li> <iron-icon icon="icons:accessibility"></iron-icon> Nombre:  [[contact.name.title]] [[contact.name.first]] [[contact.name.last]]</li>
+            <li> <img class="github" src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" alt="github"> GitHub: <a href$="https://github.com/[[contact.login.username]]">@[[contact.login.username]]</a> </li>
+            <li> <iron-icon icon="icons:perm-device-information"></iron-icon> Celular: [[contact.cell]] </li>
+            <li> <iron-icon icon="icons:mail"></iron-icon> Correo electrónico: [[contact.email]] </li>
+          </ul>
+        </div>
+      </paper-card>
+    </template>
+  </template>
+
+  <script>
+    /**
+     * `cards-polymer`
+     * Lista de contactos
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class CardsPolymer extends Polymer.Element {
+      static get is() { return 'cards-polymer'; }
+      static get properties() {
+        return {
+          contacts: {
+            type: Array,
+            value: []
+          },
+        }
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        fetch('https://randomuser.me/api/?results=50')
+                .then(response => response.json())
+                .then(payload => {
+                  this.contacts = [...payload.results];
+                });
+      }
+
+    }
+
+    window.customElements.define(CardsPolymer.is, CardsPolymer);
+  </script>
+</dom-module>
