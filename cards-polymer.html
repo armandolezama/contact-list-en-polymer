@@ -20,6 +20,10 @@
             max-width: 400px;
             margin: auto;
           }
+      .userpíck {
+        width: 200px;
+        height: 200px;
+      }
     </style>
     <custom-style>
         <style is="custom-style">
@@ -53,7 +57,7 @@
       <paper-card >
         <div class="card-content">
           <ul>
-            <img src="[[contact.picture.large]]" alt="userpick">
+            <img class="userpick" src="[[contact.picture.large]]" alt="userpick">
             <li> <iron-icon icon="icons:accessibility"></iron-icon> Nombre:  [[contact.name.title]] [[contact.name.first]] [[contact.name.last]]</li>
             <li> <img class="github" src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" alt="github"> GitHub: <a href$="https://github.com/[[contact.login.username]]">@[[contact.login.username]]</a> </li>
             <li> <iron-i
@@ -110,8 +114,13 @@
                 });
       }
 
-      _insertData(nombre, github, cell, email){
-        this.contacts = [{nombre, github, cell, email} ,...this.contacts]
+      _insertData(){
+        this.contacts = [{
+          name:{title: this.nombre},
+          login:{username: this.github},
+          cell: this.cell,
+          email: this.email,
+          picture:{large: "http://files.softicons.com/download/android-icons/maximal-circle-icons-by-fritz-franke/png/128x128/contacts.png"}} , ...this.contacts]
       }
 
     }
